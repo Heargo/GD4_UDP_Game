@@ -8,7 +8,10 @@ RoboCatServer::RoboCatServer() :
 
 void RoboCatServer::HandleDying()
 {
-	NetworkManagerServer::sInstance->UnregisterGameObject(this);
+	//NetworkManagerServer::sInstance->UnregisterGameObject(this);
+	//switch team and refill health
+	mTeam = (mTeam == 0) ? 1 : 0;
+	mHealth = 10;
 }
 
 void RoboCatServer::Update()

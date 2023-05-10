@@ -21,5 +21,6 @@ private:
 	float				mTimeVelocityBecameOutOfSync;
 
 	SpriteComponentPtr	mSpriteComponent;
+	int 		mTeam;
 };
 

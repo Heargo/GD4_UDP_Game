@@ -5,7 +5,26 @@ RoboCatClient::RoboCatClient() :
 	mTimeVelocityBecameOutOfSync(0.f)
 {
 	mSpriteComponent.reset(new PlayerSpriteComponent(this));
-	mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("cat"));
+	//change scale to 0.5f
+	SetScale(0.3f);
+	//and if we're local set color to blue
+	int id = GetPlayerId();
+		
+	//print out the player id
+	LOG("Player ID: %d", id);
+	
+	//alternate between blue and red for the start of the game
+	if (id%2==0)
+	{
+		mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("Spaceship_01_BLUE"));
+		mTeam = 0;
+		LOG("Team: BLUE for player %d",id)
+	}
+	else {
+		mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("Spaceship_01_RED"));
+		mTeam = 1;
+		LOG("Team: RED for player %d", id)
+	}
 }
 
 void RoboCatClient::HandleDying()
@@ -15,8 +34,16 @@ void RoboCatClient::HandleDying()
 	//and if we're local, tell the hud so our health goes away!
 	if (GetPlayerId() == NetworkManagerClient::sInstance->GetPlayerId())
 	{
-		HUD::sInstance->SetPlayerHealth(0);
+		HUD::sInstance->SetPlayerHealth(10);
 	}
+	//switch team 
+	mTeam = (mTeam == 0) ? 1 : 0;
+	sf::String team = (mTeam == 0) ? "BLUE" : "RED";
+	mSpriteComponent.reset(new PlayerSpriteComponent(this));
+	mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("Spaceship_01_"+team));
+	//refill health
+	mHealth = 10;
+	LOG("switched to Team: %s for player %d", team, GetPlayerId())
 }
 
 

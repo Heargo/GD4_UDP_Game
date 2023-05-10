@@ -29,11 +29,11 @@ void	ClientProxy::HandleCatDied()
 
 void	ClientProxy::RespawnCatIfNecessary()
 {
-	if (mTimeToRespawn != 0.f && Timing::sInstance.GetFrameStartTime() > mTimeToRespawn)
+	/*if (mTimeToRespawn != 0.f && Timing::sInstance.GetFrameStartTime() > mTimeToRespawn)
 	{
 		static_cast<Server*> (Engine::s_instance.get())->SpawnCatForPlayer(mPlayerId);
 		mTimeToRespawn = 0.f;
-	}
+	}*/
 }
 
 

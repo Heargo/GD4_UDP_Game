@@ -4,7 +4,8 @@
 YarnClient::YarnClient()
 {
 	mSpriteComponent.reset(new SpriteComponent(this));
-	mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("yarn"));
+	SetScale(2.f);
+	mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("BulletBlue"));
 }
 
 
