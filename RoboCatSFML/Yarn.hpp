@@ -30,12 +30,16 @@ public:
 	virtual void Update() override;
 
 	virtual bool HandleCollisionWithCat(RoboCat* inCat) override;
+	int GetTeam();
+	void SetTeam(int team);
 
 protected:
 	Yarn();
 	Vector3		mVelocity;
 	float		mMuzzleSpeed;
 	int			mPlayerId;
+	int mTeam;
+
 
 };
 

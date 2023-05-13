@@ -13,6 +13,5 @@ protected:
 
 private:
 	float mTimeToDie;
-
 };
 

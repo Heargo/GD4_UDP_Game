@@ -26,7 +26,7 @@ void YarnServer::Update()
 
 bool YarnServer::HandleCollisionWithCat(RoboCat* inCat)
 {
-	if (inCat->GetPlayerId() != GetPlayerId())
+	if (inCat->GetPlayerId() != GetPlayerId() && inCat->GetTeam() != GetTeam())
 	{
 		//kill yourself!
 		SetDoesWantToDie(true);
@@ -37,6 +37,4 @@ bool YarnServer::HandleCollisionWithCat(RoboCat* inCat)
 
 	return false;
 }
-
-
 

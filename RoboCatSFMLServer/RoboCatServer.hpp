@@ -28,7 +28,5 @@ private:
 
 	float		mTimeOfNextShot;
 	float		mTimeBetweenShots;
-	int mTeam;
-
 };
 

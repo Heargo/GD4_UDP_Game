@@ -74,6 +74,7 @@ void RoboCatServer::HandleShooting()
 		//fire!
 		YarnPtr yarn = std::static_pointer_cast<Yarn>(GameObjectRegistry::sInstance->CreateGameObject('YARN'));
 		yarn->InitFromShooter(this);
+		yarn->SetTeam(mTeam);
 	}
 }
 

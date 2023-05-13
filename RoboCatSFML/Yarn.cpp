@@ -98,3 +98,14 @@ void Yarn::Update()
 	//we'll let the cats handle the collisions
 }
 
+
+int Yarn::GetTeam() {
+	return mTeam;
+}
+
+void Yarn::SetTeam(int team) {
+	mTeam = team;
+
+}
+
+

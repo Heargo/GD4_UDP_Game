@@ -36,6 +36,9 @@ public:
 
 	virtual uint32_t	Write(OutputMemoryBitStream& inOutputStream, uint32_t inDirtyState) const override;
 
+	int GetTeam();
+	void SetTeam(int team);
+
 protected:
 	RoboCat();
 
@@ -57,6 +60,7 @@ private:
 
 	uint32_t			mPlayerId;
 
+
 protected:
 
 	///move down here for padding reasons...
@@ -67,6 +71,8 @@ protected:
 	int					mHealth;
 
 	bool				mIsShooting;
+
+	int mTeam;
 };
 
 typedef shared_ptr< RoboCat >	RoboCatPtr;

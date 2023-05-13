@@ -13,7 +13,9 @@ RoboCat::RoboCat() :
 	mThrustDir(0.f),
 	mPlayerId(0),
 	mIsShooting(false),
-	mHealth(10)
+	mHealth(10),
+	mTeam(0),
+	mLastMoveTimestamp(0.f)
 {
 	SetCollisionRadius(60.f);
 }
@@ -250,6 +252,17 @@ uint32_t RoboCat::Write(OutputMemoryBitStream& inOutputStream, uint32_t inDirtyS
 
 
 }
+
+int RoboCat::GetTeam() {
+	return mTeam;
+}
+
+void RoboCat::SetTeam(int team) {
+	mTeam = team;
+
+}
+
+
 
 
 
