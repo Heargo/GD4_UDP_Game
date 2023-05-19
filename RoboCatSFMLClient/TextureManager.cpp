@@ -13,6 +13,7 @@ TextureManager::TextureManager()
 	CacheTexture("Spaceship_01_RED", "../Assets/Spaceship_01_RED.png");
 	CacheTexture("asteroid", "../Assets/asteroid.png");
 	CacheTexture("BulletBlue", "../Assets/BulletBlue.png");
+	CacheTexture("background", "../Assets/greenNebula.png");
 }
 
 TexturePtr	TextureManager::GetTexture(const string& inTextureName)

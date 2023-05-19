@@ -4,7 +4,9 @@ std::unique_ptr<sf::RenderWindow>	WindowManager::sInstance;
 
 bool WindowManager::StaticInit()
 {
-	sInstance.reset(new sf::RenderWindow(sf::VideoMode(1280, 720), "RoboCatSFML!"));
+	int widthScreen = sf::VideoMode::getDesktopMode().width;
+	int heightScreen = sf::VideoMode::getDesktopMode().height;
+	sInstance.reset(new sf::RenderWindow(sf::VideoMode(widthScreen, heightScreen), "RoboCatSFML!"));
 	return true;
 }
 

@@ -67,6 +67,12 @@ void RenderManager::Render()
 	// Clear the back buffer
 	//
 	WindowManager::sInstance->clear(sf::Color(100, 149, 237, 255));
+	//draw the background in tiles
+	TexturePtr background = TextureManager::sInstance->GetTexture("background");
+	sf::Sprite backgroundSprite(*background);
+	backgroundSprite.setTextureRect(sf::IntRect(0, 0, 1280, 720));
+	backgroundSprite.setPosition(0, 0);
+	WindowManager::sInstance->draw(backgroundSprite);
 
 	RenderManager::sInstance->RenderComponents();
 
