@@ -10,8 +10,13 @@ void RoboCatServer::HandleDying()
 {
 	//NetworkManagerServer::sInstance->UnregisterGameObject(this);
 	//switch team and refill health
+	//switch team 
 	mTeam = (mTeam == 0) ? 1 : 0;
+	LOG("switched to Team: %d for player %d", mTeam, GetPlayerId())
+	//refill health
 	mHealth = 10;
+	//tell the world our health dropped
+	NetworkManagerServer::sInstance->SetStateDirty(GetNetworkId(), ECRS_Health | ECRS_Team);
 }
 
 void RoboCatServer::Update()

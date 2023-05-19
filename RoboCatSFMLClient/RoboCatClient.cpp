@@ -7,27 +7,22 @@ RoboCatClient::RoboCatClient() :
 	mSpriteComponent.reset(new PlayerSpriteComponent(this));
 	//change scale to 0.5f
 	SetScale(0.3f);
-	
+	//default team is blue
+	SetupTeam(0);
 }
 
-void RoboCatClient::SetupTeam()
+void RoboCatClient::SetupTeam(int team)
 {
-	//and if we're local set color to blue
-	int id = GetPlayerId();
 
-	//print out the player id
-	LOG("Player ID: %d", id);
 	//alternate between blue and red for the start of the game
-	if (id % 2 == 0)
+	if (team == 0)
 	{
 		mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("Spaceship_01_BLUE"));
 		mTeam = 0;
-		LOG("Team: BLUE for player %d", id)
 	}
 	else {
 		mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("Spaceship_01_RED"));
 		mTeam = 1;
-		LOG("Team: RED for player %d", id)
 	}
 }
 
@@ -40,14 +35,6 @@ void RoboCatClient::HandleDying()
 	{
 		HUD::sInstance->SetPlayerHealth(10);
 	}
-	//switch team 
-	mTeam = (mTeam == 0) ? 1 : 0;
-	sf::String team = (mTeam == 0) ? "BLUE" : "RED";
-	mSpriteComponent.reset(new PlayerSpriteComponent(this));
-	mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("Spaceship_01_"+team));
-	//refill health
-	mHealth = 10;
-	LOG("switched to Team: %s for player %d", team, GetPlayerId())
 }
 
 
@@ -98,7 +85,6 @@ void RoboCatClient::Read(InputMemoryBitStream& inInputStream)
 		inInputStream.Read(playerId);
 		//LOG("setting player id to %d in robocarclient", playerId);
 		SetPlayerId(playerId);
-		SetupTeam();
 		readState |= ECRS_PlayerId;
 	}
 
@@ -156,6 +142,17 @@ void RoboCatClient::Read(InputMemoryBitStream& inInputStream)
 		inInputStream.Read(mHealth, 4);
 		readState |= ECRS_Health;
 	}
+
+	//team switch
+	inInputStream.Read(stateBit);
+	if (stateBit)
+	{
+		inInputStream.Read(mTeam);
+		SetupTeam(mTeam);
+		LOG("Team: %d for player %d", GetTeam(), GetPlayerId())
+		readState |= ECRS_Team;
+	}
+	
 
 	if (GetPlayerId() == NetworkManagerClient::sInstance->GetPlayerId())
 	{

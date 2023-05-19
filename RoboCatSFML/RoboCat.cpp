@@ -248,6 +248,20 @@ uint32_t RoboCat::Write(OutputMemoryBitStream& inOutputStream, uint32_t inDirtyS
 		inOutputStream.Write((bool)false);
 	}
 
+	//team
+	if (inDirtyState & ECRS_Team)
+	{
+		inOutputStream.Write((bool)true);
+		inOutputStream.Write(mTeam);
+
+		writtenState |= ECRS_Team;
+	}
+	else
+	{
+		inOutputStream.Write((bool)false);
+	}
+	
+
 	return writtenState;
 
 

@@ -13,7 +13,7 @@ public:
 
 protected:
 	RoboCatClient();
-	void SetupTeam();
+	void SetupTeam(int team);
 
 
 private:
