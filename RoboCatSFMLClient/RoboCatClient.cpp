@@ -7,18 +7,22 @@ RoboCatClient::RoboCatClient() :
 	mSpriteComponent.reset(new PlayerSpriteComponent(this));
 	//change scale to 0.5f
 	SetScale(0.3f);
+	
+}
+
+void RoboCatClient::SetupTeam()
+{
 	//and if we're local set color to blue
 	int id = GetPlayerId();
-		
+
 	//print out the player id
 	LOG("Player ID: %d", id);
-	
 	//alternate between blue and red for the start of the game
-	if (id%2==0)
+	if (id % 2 == 0)
 	{
 		mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("Spaceship_01_BLUE"));
 		mTeam = 0;
-		LOG("Team: BLUE for player %d",id)
+		LOG("Team: BLUE for player %d", id)
 	}
 	else {
 		mSpriteComponent->SetTexture(TextureManager::sInstance->GetTexture("Spaceship_01_RED"));
@@ -92,7 +96,9 @@ void RoboCatClient::Read(InputMemoryBitStream& inInputStream)
 	{
 		uint32_t playerId;
 		inInputStream.Read(playerId);
+		//LOG("setting player id to %d in robocarclient", playerId);
 		SetPlayerId(playerId);
+		SetupTeam();
 		readState |= ECRS_PlayerId;
 	}
 
@@ -139,7 +145,7 @@ void RoboCatClient::Read(InputMemoryBitStream& inInputStream)
 	{
 		Vector3 color;
 		inInputStream.Read(color);
-		SetColor(color);
+		//SetColor(color);
 		readState |= ECRS_Color;
 	}
 

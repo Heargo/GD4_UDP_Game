@@ -98,6 +98,7 @@ void Server::HandleNewClient(ClientProxyPtr inClientProxy)
 {
 
 	int playerId = inClientProxy->GetPlayerId();
+	LOG("Player %d has joined", playerId)
 
 	ScoreBoardManager::sInstance->AddEntry(playerId, inClientProxy->GetName());
 	SpawnCatForPlayer(playerId);
