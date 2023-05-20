@@ -13,6 +13,10 @@ public:
 
 	RoboCatPtr	GetCatForPlayer(int inPlayerId);
 	void	SpawnCatForPlayer(int inPlayerId);
+	void SpawnAsteroides(int nbAsteroides);
+	sf::Vector2f GetRandomPosition(int size, std::vector<sf::Vector2f> existingAsteroides, std::vector<int> existingAsteroidesSize);
+
+
 
 
 private:

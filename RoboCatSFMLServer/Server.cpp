@@ -74,7 +74,8 @@ namespace
 void Server::SetupWorld()
 {
 	//spawn some random mice
-	CreateRandomMice(10);
+	//CreateRandomMice(10);
+	SpawnAsteroides(10);
 
 	//spawn more random mice!
 	//CreateRandomMice(10);
@@ -146,5 +147,93 @@ RoboCatPtr Server::GetCatForPlayer(int inPlayerId)
 	}
 
 	return nullptr;
+
+}
+
+void Server::SpawnAsteroides(int nbAsteroides)
+{
+	//hardcoded seed for now 
+	srand(1);
+
+	////list of existing asteroides position and size
+	std::vector<sf::Vector2f> existingAsteroides;
+	std::vector<int> existingAsteroidesSize;
+
+	GameObjectPtr go;
+	
+	//Spawn the asteroids
+	for (int i = 0; i < nbAsteroides; i++)
+	{
+		//get a random size between 50px and 200px with a step of 50px
+		int size = 50 * (rand() % 4 + 1);
+
+		sf::Vector2f pos = GetRandomPosition(size, existingAsteroides, existingAsteroidesSize);
+
+		//skip if there is no valid position for this size. Get random position return a (0,0) if there where to many attemps 
+		if (pos == sf::Vector2f(0.f, 0.f)) continue;
+
+		//add pos and size to history
+		existingAsteroides.push_back(pos);
+		existingAsteroidesSize.push_back(size);
+
+		go = GameObjectRegistry::sInstance->CreateGameObject('MOUS');
+		Vector3 mouseLocation = Vector3(pos.x, pos.y, 0.f);
+		go->SetLocation(mouseLocation);
+
+
+	}
+}
+
+sf::Vector2f Server::GetRandomPosition(int size, std::vector<sf::Vector2f> existingAsteroides, std::vector<int> existingAsteroidesSize)
+{
+
+	bool tooClose = false;
+	//margin in px
+	int margin = 30;
+
+	sf::Rect<float> m_world_bounds = sf::Rect<float>(100.f, 100.f, 1180.f, 620.f);
+	
+
+	//position is within word size
+	int marginWorld = 50;
+
+	//random position
+	int x = (rand() % int(m_world_bounds.width - margin)) + margin;
+	int y = ((rand() % int(m_world_bounds.height - margin)) + margin);
+
+
+	int attemps = 0;
+	//while the position is too close from an existing asteriod, we try other position within 100 attemps limit.
+	do {
+		for (int j = 0; j < existingAsteroides.size(); j++)
+		{
+			float distance = std::sqrt((existingAsteroides[j].x - x) * (existingAsteroides[j].x - x) + (existingAsteroides[j].y - y) * (existingAsteroides[j].y - y));
+			if (distance <= (existingAsteroidesSize[j] + size + margin))
+			{
+				tooClose = true;
+				x = (rand() % int(m_world_bounds.width - margin)) + margin;
+				y = ((rand() % int(m_world_bounds.height - margin)) + margin);
+				//std::cout << "point too close !!!" << std::endl;
+				break;
+			}
+			else
+			{
+				tooClose = false;
+				//std::cout << " pos is ok compared to asteroid " << j << " it's " << distance << " from it" << std::endl;
+			}
+		}
+		attemps++;
+	} while (tooClose && attemps < 100);
+
+	//return (0,0) position if there is no room for the asteroid of the size given.
+	if (attemps == 100)
+	{
+		x = 0.f;
+		y = 0.f;
+	}
+
+	return sf::Vector2f(x, y);
+
+
 
 }
